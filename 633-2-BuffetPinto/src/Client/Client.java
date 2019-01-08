@@ -1,6 +1,7 @@
 package Client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Client implements Serializable 
 {
@@ -11,10 +12,10 @@ public class Client implements Serializable
 	private String ClientName;
 	private String ClientPassword;
 	private String ClientIp;
-	private String [] ClientlstFiles;
+	private ArrayList<String> ClientlstFiles;
 	private boolean exist;
 	
-	public Client(String ClientName, String ClientPassword, String ClientIp, String [] ClientlstFiles, boolean exist) 
+	public Client(String ClientName, String ClientPassword, String ClientIp, ArrayList<String> ClientlstFiles, boolean exist)
 	{
 		this.ClientName = ClientName;
 		this.ClientPassword = ClientPassword;
@@ -48,12 +49,12 @@ public class Client implements Serializable
 		return ClientIp;
 	}
 
-	public String[] getListOfFiles() 
+	public ArrayList<String> getListOfFiles()
 	{
 		return ClientlstFiles;
 	}
 
-	public void setListOfFiles(String[] ClientlstFiles) 
+	public void setListOfFiles(ArrayList<String> ClientlstFiles)
 	{
 		this.ClientlstFiles = ClientlstFiles;
 	}
