@@ -6,10 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,13 +48,22 @@ public class ClientConnection
 	private JFileChooser fc = new JFileChooser();
 
 
+	protected Client getClient() {
+		return client;
+	}
+	protected ArrayList<Client> getClientList() {
+		return clientList;
+	}
+	protected String getServerIP() {return ServerIP;}
+	public int getClientPort() {return clientPort;}
+
 	public ClientConnection() throws IOException
 	{
 		connectToServer();
 		connectToClient();
 	}
 
-	public void prepareClientSocket(String cName, int cPort) {
+	private void prepareClientSocket(String cName, int cPort) {
 		try {
 			InetAddress localAddress = InetAddress.getByName(cName);
 			listeningSocket = new ServerSocket(cPort, 5, localAddress);
@@ -161,7 +167,7 @@ public class ClientConnection
 
 	}
 
-	private void download(String fileName, Client fileOwner, FileAsk fAsk)
+	protected void download(String fileName, Client fileOwner, FileAsk fAsk)
 	{
 		new Thread(new Runnable() {
 
@@ -183,11 +189,8 @@ public class ClientConnection
 			}
 
 			}
-		});
+		}).start();
 	}
-
-
-
 
 	private ArrayList<String> getListOfFiles()
 	{
@@ -207,7 +210,25 @@ public class ClientConnection
 		return filesList;
 	}
 
-	public class FileAsk implements Serializable {
+	protected static int disconnect(String serverName, int disconnectServerPort) {
+		InetAddress serverAddress;
+		try {
+			serverAddress = InetAddress.getByName(serverName);
+			Socket disconnectSocket = new Socket();
+			disconnectSocket.connect(new InetSocketAddress(serverAddress, disconnectServerPort), 5);
+			disconnectSocket.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+
+
+	protected static class FileAsk implements Serializable
+	{
 		private final String fileName;
 		private final Client sender;
 		private final Client receiver;
@@ -215,7 +236,7 @@ public class ClientConnection
 		public FileAsk(String nameFile, Client sender, Client receiver) {
 			this.fileName = nameFile;
 			this.sender = sender;
-			this.receiver = receiver; //tout l'objet client (donc accès ip adress , name etc)
+			this.receiver = receiver;
 		}
 
 		public String getFileName() {return fileName;}
@@ -224,6 +245,7 @@ public class ClientConnection
 
 		public Client getReceiver() {return receiver; }
 	}
+
 }
 
 
