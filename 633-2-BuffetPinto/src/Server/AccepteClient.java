@@ -41,9 +41,13 @@ public class AccepteClient extends Thread
 	{
 		try
 		{
+
 			outStream = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
+
+			/// ajout debut
+			ArrayList<Client> listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
 
 			System.out.println("je suis un thread : " + client);
 			System.out.println(client.getIp() + " " +client.getName() + " "+client.getMdp());
