@@ -16,6 +16,7 @@ public class Serialize
 	private String path = "Client//client.zer";
 	private Client admin = new Client("Admin", "1234");
 	private ArrayList<Client> list = new ArrayList<>();
+	Log log;
 
 	public Serialize() 
 	{
@@ -35,6 +36,7 @@ public class Serialize
 		catch (java.io.IOException e) 
 		{
 			e.printStackTrace();
+			log.write("serialisation fail","severe");
 		}
 	}
 
@@ -51,6 +53,7 @@ public class Serialize
 		catch (Exception e) 
 		{
 			cs = new Object();
+			log.write("deserialisation fail","severe");
 		}
 
 		return cs;
@@ -78,6 +81,7 @@ public class Serialize
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.write("File creation failed","severe");
 		} 
 	}
 }

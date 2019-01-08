@@ -30,7 +30,7 @@ public class Server {
             {
                 clientSocket = mySkServer.accept();
                 log.write("Connexion d'un client", "info");
-                System.out.println("connection request received : " +  clientSocket.getPort() + "Adress du client : " + clientSocket.getInetAddress());
+                System.out.println("connection request received : " +  clientSocket.getPort() + "Address du client : " + clientSocket.getInetAddress());
 
                 //Cr�ation du thread :
                 //le socket , ma list (toujours a jour) , mon objet s�rialiser
