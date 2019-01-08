@@ -21,32 +21,40 @@ import java.awt.CardLayout;
 
 public class ClientConnection
 {
+	// Client variables
 	private Client client = null;
 	private String Clientlogin = "";
 	private String Clientpassword = "";
 	private String ClientIP = "";
+	private boolean exist;
+	private Socket clientSocket = null;
+	private int clientPort = 45001;
+
+	// Server variables
 	private String ServerIP = "";
 	private ArrayList<String> allFilesList = new ArrayList<String>();
 	private ArrayList<Client> clientList = new ArrayList<>();
+	private int serverPort = 45005;
 
+	// Sockets for upload and download
+	private Socket downloadSocket = null;
 	private ServerSocket listeningSocket;
-	private int clientPort = 45005;
-	private boolean exist;
 
-	private Socket clientSocket = null;
+	// "Files" variables
 	private ObjectOutputStream oos = null;
 	private ObjectInputStream ois = null;
 	private BufferedReader buffin = null;
 	private File directory = new File("C:\\ClientFiles");
 
+	// GUI variables
 	private ClientFrame clientFrame;
 	private JFileChooser fc = new JFileChooser();
-
 
 
 	public ClientConnection() throws IOException
 	{
 		connectToServer();
+		connectToClient();
 	}
 
 	public void prepareClientSocket(String cName, int cPort) {
@@ -63,8 +71,8 @@ public class ClientConnection
 	private void connectToServer() throws IOException
 	{
 		exist = true;
-		ServerIP = "localhost";
-		clientSocket = new Socket(ServerIP, 45005);
+		ServerIP = "192.168.43.144";
+		clientSocket = new Socket(ServerIP, serverPort);
 
 		oos = new ObjectOutputStream(clientSocket.getOutputStream());
 		buffin = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -97,6 +105,7 @@ public class ClientConnection
 					try
 					{
 						prepareClientSocket(ClientIP, clientPort);
+
 						Socket tempSocket;
 						tempSocket = listeningSocket.accept();
 
@@ -152,9 +161,29 @@ public class ClientConnection
 
 	}
 
-	private void download()
+	private void download(String fileName, Client fileOwner, FileAsk fAsk)
 	{
+		new Thread(new Runnable() {
 
+			@Override
+			public void run() {
+			try
+			{
+				downloadSocket = new Socket(fAsk.getReceiver().getIp(), clientPort);
+				System.out.println(fAsk.getReceiver().getIp());
+				ois = new ObjectInputStream(downloadSocket.getInputStream());
+				oos = new ObjectOutputStream(downloadSocket.getOutputStream());
+				oos.writeObject(fAsk);
+				Files.copy(ois, Paths.get(directory + fAsk.getFileName()));
+			}
+			catch(IOException ioe)
+			{
+				JOptionPane.showMessageDialog(clientFrame, "Impossible download");
+				ioe.printStackTrace();
+			}
+
+			}
+		});
 	}
 
 
@@ -168,7 +197,6 @@ public class ClientConnection
 			directory.mkdir();
 
 		ArrayList<String> filesList = new ArrayList<String>();
-		//String [] files = new String [directory.list().length];
 		File [] fTab= directory.listFiles();
 
 		for (int i = 0; i < fTab.length; i++)
