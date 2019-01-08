@@ -11,9 +11,10 @@ public class Server {
     private Serialize serialize = new Serialize();
     private ArrayList<AccepteClient> listClientsConnected = new ArrayList<>();
 
-    public Server() 
+
+    public Server()
     {
-    	
+
     	//cree les fichiers de sauvegarde user en cas de non existence
         serialize.createFile();
 
@@ -23,13 +24,13 @@ public class Server {
             mySkServer = new ServerSocket(45005, 5);
             System.out.println("j'ai ouvert ma connection au port : " + 45005);
             //wait for a client connection
-            while (true) 
+            while (true)
             {
                 clientSocket = mySkServer.accept();
                 System.out.println("connection request received : " +  clientSocket.getPort() + "Adress du client : " + clientSocket.getInetAddress());
 
-                //Création du thread : 
-                							//le socket , ma list (toujours a jour) , mon objet sérialiser
+                //Crï¿½ation du thread :
+                //le socket , ma list (toujours a jour) , mon objet sï¿½rialiser
                 Thread t = new AccepteClient(clientSocket, listClientsConnected, serialize);
 
                 //starting the thread
