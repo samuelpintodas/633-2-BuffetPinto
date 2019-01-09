@@ -51,16 +51,16 @@ public class AccepteClient extends Thread
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
 
-			if(!(serialize.deSerializeObject() == null))
+			if(!(serialize.deSerialize() == null))
 			{
-				listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
+				listOfClient = (ArrayList<Client>) (serialize.deSerialize());
 			}
 			// create a client to serialize only name
 			Client newClient = new Client(client.getName());
 			log.write(client.getName()+" connection validée", "info");
 			listOfClient.add(newClient);
 			//serialize the new client
-			serialize.serializeObject(listOfClient);
+			serialize.serialize(listOfClient);
 			//send a file list to the client
 			updateFileClient();
 		}

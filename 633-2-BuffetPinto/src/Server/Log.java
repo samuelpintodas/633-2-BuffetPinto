@@ -2,8 +2,6 @@ package Server;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -53,7 +51,7 @@ public class Log
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+            //create filehandler
             try
             {
                 fh = new FileHandler("./"+path,true);
