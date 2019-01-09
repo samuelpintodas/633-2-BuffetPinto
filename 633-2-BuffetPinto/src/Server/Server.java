@@ -16,24 +16,25 @@ public class Server {
     public Server()
     {
 
-    	//cree les fichiers de sauvegarde user en cas de non existence
+    	//create a file if not exist to serialize
         serialize.createFile();
 
         ServerSocket mySkServer;
-        //Initialise le fichier de logs
+        //Initialize log file
         log.createLogger();
         try {
+            //create a Sercer socket
             mySkServer = new ServerSocket(45005, 5);
-            System.out.println("j'ai ouvert ma connection au port : " + 45005);
+            System.out.println("connection open on port : " + 45005);
             //wait for a client connection
             while (true)
             {
                 clientSocket = mySkServer.accept();
-                log.write("Connexion d'un client", "info");
-                System.out.println("connection request received : " +  clientSocket.getPort() + "Address du client : " + clientSocket.getInetAddress());
+                log.write("Client connection on server", "info");
+                System.out.println("connection request received : " +  clientSocket.getPort() + "ClientAddress : " + clientSocket.getInetAddress());
 
-                //Cr�ation du thread :
-                //le socket , ma list (toujours a jour) , mon objet s�rialiser
+                //Creation Thread :
+                //initailaize a thread to recieve client
                 Thread t = new AccepteClient(clientSocket, listClientsConnected, serialize,log);
 
                 //starting the thread

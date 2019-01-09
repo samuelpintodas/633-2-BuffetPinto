@@ -22,7 +22,7 @@ public class Client implements Serializable
 		this.exist = exist;
 	}
 	
-	public Client(String name, String mdp) 
+	public Client(String name)
 	{
 		this.ClientName = ClientName;
 	}

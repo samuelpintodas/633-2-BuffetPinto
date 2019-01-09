@@ -14,7 +14,7 @@ import Client.Client;
 public class Serialize 
 {
 	private String path = "Client\\client.zer";
-	private Client admin = new Client("Admin", "1234");
+	private Client admin = new Client("Admin");
 	private ArrayList<Client> list = new ArrayList<>();
 	Log log;
 
@@ -23,7 +23,7 @@ public class Serialize
 		super();
 	}
 
-	public void serializeObject(Object o) 
+	public void serializeObject(ArrayList o)
 	{
 		try 
 		{
@@ -42,17 +42,17 @@ public class Serialize
 
 	public Object deSerializeObject() 
 	{ 		
-		Object cs = null;
+		ArrayList cs = null;
 
 		try 
 		{
 			FileInputStream fichier = new FileInputStream(path);
 			ObjectInputStream ois = new ObjectInputStream(fichier);
-			cs = ois.readObject();
+			cs =(ArrayList)ois.readObject();
 		}
 		catch (Exception e) 
 		{
-			cs = new Object();
+			cs = new ArrayList();
 		}
 
 		return cs;
