@@ -1,13 +1,13 @@
 package Server;
 
+import Client.Client;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.net.*;
+import java.net.Socket;
 import java.util.ArrayList;
-
-import Client.Client;
 
 public class AccepteClient extends Thread
 {

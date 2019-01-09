@@ -2,20 +2,14 @@
 package Client;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.CardLayout;
 
 public class ClientConnection
 {
@@ -57,8 +51,9 @@ public class ClientConnection
     protected String getServerIP() {return ServerIP;}
     public int getClientPort() {return clientPort;}
 
-    public ClientConnection() throws IOException
+    public ClientConnection(ClientFrame clientFrame) throws IOException
     {
+        this.clientFrame = clientFrame;
         //connectToServer();
         //connectToClient();
     }
@@ -163,6 +158,8 @@ public class ClientConnection
 
     private void setClientList(ArrayList<Client> cList) {
         clientList = cList;
+        if(clientFrame != null)
+            clientFrame.refreshList();
     }
 
     protected void download(Client fileOwner, FileAsk fAsk)

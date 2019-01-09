@@ -1,15 +1,14 @@
 package Client;
 
+import Client.ClientConnection.FileAsk;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import Client.ClientConnection.FileAsk;
 
 public class ClientFrame extends JFrame {
 
@@ -39,7 +38,7 @@ public class ClientFrame extends JFrame {
 
         try
         {
-            cc = new ClientConnection();
+            cc = new ClientConnection(this);
             cc.connectToServer(servIPTxt.getText(), cNameTxt.getText());
             cc.connectToClient();
             cc.getClients();
@@ -83,13 +82,13 @@ public class ClientFrame extends JFrame {
     }
 
     public void refreshList() {
-        if(!(clientChoose.getItemCount()<1))
-        {
-            clientChoose.removeAllItems();
-        }
-        for(Client c : cc.getClientList())
-        {
-            clientChoose.addItem(c);
+        if(clientChoose != null) {
+            if (!(clientChoose.getItemCount() < 1)) {
+                clientChoose.removeAllItems();
+            }
+            for (Client c : cc.getClientList()) {
+                clientChoose.addItem(c);
+            }
         }
     }
 
