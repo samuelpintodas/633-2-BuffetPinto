@@ -22,7 +22,6 @@ public class AccepteClient extends Thread
 	//Info pour le client
 	private PrintWriter validate = null;
 	private ObjectOutputStream out = null;
-	private String validation = "-1";
 
 
 
