@@ -25,13 +25,11 @@ public class Server {
         try {
             //create a Sercer socket
             mySkServer = new ServerSocket(45005, 10);
-            System.out.println("connection open on port : " + 45005);
             //wait for a client connection
             while (true)
             {
                 clientSocket = mySkServer.accept();
                 log.write("Client connection on server", "info");
-                System.out.println("connection request received : " +  clientSocket.getPort() + "ClientAddress : " + clientSocket.getInetAddress());
 
                 //Creation Thread :
                 //initailaize a thread to recieve client

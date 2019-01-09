@@ -62,7 +62,6 @@ public class AccepteClient extends Thread
 			listOfClient.add(newClient);
 			//serialize the new client
 			serialize.serialize(listOfClient);
-			System.out.println(connectedClientList.size());
 			//send a file list to the client
 			updateFileClient();
 			Object o;
@@ -90,6 +89,7 @@ public class AccepteClient extends Thread
 		for (AccepteClient accepteClient : connectedClientList) {
 			allClients.add(accepteClient.client);
 		}
+
 		for (AccepteClient accepteClient : connectedClientList)
 		{
 			accepteClient.outStream.writeObject(allClients);
