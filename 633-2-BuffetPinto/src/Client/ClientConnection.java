@@ -279,9 +279,9 @@ public class ClientConnection
 
                 File askedFile = null;
 
-                for (Object file: directory.listFiles())
+                for (File file: directory.listFiles())
                 {
-                    if(file.getClass().getName().equals(cFileAsk.getFileName()))
+                    if(file.getName().equals(cFileAsk.getFileName()))
                     {
                         askedFile = (File) file;
                         break;
