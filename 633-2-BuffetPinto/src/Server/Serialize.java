@@ -13,7 +13,7 @@ import Client.Client;
 
 public class Serialize 
 {
-	private String path = "Client//client.zer";
+	private String path = "Client\\client.zer";
 	private Client admin = new Client("Admin", "1234");
 	private ArrayList<Client> list = new ArrayList<>();
 	Log log;
@@ -61,7 +61,7 @@ public class Serialize
 
 	public void createFile()
 	{
-		File f = new File("Client\\client.zer");
+		File f = new File("Client//client.zer");
 
 		try
 		{

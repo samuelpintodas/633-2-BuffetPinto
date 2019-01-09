@@ -43,19 +43,19 @@ public class ClientFrame extends JFrame {
         listModel = new DefaultListModel<>();
         filesList = new JList(listModel);
 
-        setBounds(100, 100, 475, 595);
+        //setBounds(100, 100, 475, 595);
         contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
-        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // maybe problem here
 
-        downloadButton.addActionListener(new DownloadClick());
-        quitButton.addActionListener(new QuitClick());
+        downloadButton.addActionListener(new DownloadButtonClick());
+        quitButton.addActionListener(new QuitButtonClick());
 
-        buttonsPanel.add(downloadButton, FlowLayout.CENTER);
-        buttonsPanel.add(quitButton, FlowLayout.RIGHT);
+        buttonsPanel.add(downloadButton);
+        buttonsPanel.add(quitButton);
 
         contentPane.add(clientChoose, BorderLayout.NORTH);
         contentPane.add(buttonsPanel, BorderLayout.SOUTH);
@@ -65,7 +65,7 @@ public class ClientFrame extends JFrame {
         setVisible(true);
     }
 
-    private class DownloadClick implements ActionListener
+    private class DownloadButtonClick implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
@@ -76,17 +76,18 @@ public class ClientFrame extends JFrame {
             FileAsk fAsk = new FileAsk(file, cc.getClient(), owner);
 
             cc.download(file, owner, fAsk);
-
         }
     }
 
-    private class QuitClick implements ActionListener
+    private class QuitButtonClick implements ActionListener
     {
         int disconnectPort = cc.getClientPort()+1;
         @Override
         public void actionPerformed(ActionEvent e)
         {
             cc.disconnect(cc.getServerIP(), disconnectPort);
+            setVisible(false);
+            dispose();
         }
     }
 

@@ -77,7 +77,7 @@ public class ClientConnection
 	private void connectToServer() throws IOException
 	{
 		exist = true;
-		ServerIP = "192.168.43.144";
+		ServerIP = "localhost";
 		clientSocket = new Socket(ServerIP, serverPort);
 
 		oos = new ObjectOutputStream(clientSocket.getOutputStream());
