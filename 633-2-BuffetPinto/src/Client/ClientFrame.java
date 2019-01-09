@@ -124,7 +124,7 @@ public class ClientFrame extends JFrame {
         {
             cc.disconnect(cc.getServerIP(), disconnectPort);
             setVisible(false);
-            dispose();
+            System.exit(0);
         }
     }
 

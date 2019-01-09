@@ -65,16 +65,19 @@ public class AccepteClient extends Thread
 			System.out.println(connectedClientList.size());
 			//send a file list to the client
 			updateFileClient();
-			while(!clientSocketOnServer.isClosed()){
-				Object o = in.readObject();
-
+			Object o;
+			while((o = in.readObject()) != null){
 
 			}
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
-			e.printStackTrace();
-			log.write("failed to connect with the client", "severe");
+			connectedClientList.remove(this);
+			try {
+				updateFileClient();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

@@ -109,7 +109,7 @@ public class ClientConnection
             @Override
             public void run() {
 
-                while (true) {
+                while (exist) {
                     try
                     {
                         Socket tempSocket;
@@ -137,7 +137,7 @@ public class ClientConnection
             @Override
             public void run()
             {
-                while(true)
+                while(exist)
                 {
                     try
                     {
@@ -211,7 +211,8 @@ public class ClientConnection
         return filesList;
     }
 
-    protected static int disconnect(String serverName, int disconnectServerPort) {
+    protected int disconnect(String serverName, int disconnectServerPort) {
+        /*
         InetAddress serverAddress;
         try {
             serverAddress = InetAddress.getByName(serverName);
@@ -223,6 +224,13 @@ public class ClientConnection
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return 0;*/
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exist=false;
         return 0;
     }
 
