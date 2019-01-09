@@ -36,26 +36,36 @@ public class AccepteClient extends Thread
 	      this.log = log;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"deprecation","unchecked"})
 	public void run()
 	{
 		try
 		{
-
+			ArrayList<Client> listOfClient=new ArrayList<>();
 			outStream = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
 
 			/// ajout debut
-			ArrayList<Client> listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
+			if(!(serialize.deSerializeObject() == null))
+			{
+				listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
+			}
+
 
 			System.out.println("je suis un thread : " + client);
 			System.out.println(client.getIp() + " " +client.getName());
             out = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
             validate = new PrintWriter(out);
 			this.connectedClientList.add(this);
-			updateFileClient();
 
+
+			Client newClient = new Client(client.getName());
+			log.write(client.getName()+" connection validée", "info");
+			listOfClient.add(newClient);
+			serialize.serializeObject(listOfClient);
+
+			updateFileClient();
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
