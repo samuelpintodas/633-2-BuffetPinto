@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +30,7 @@ public class ClientConnection
 	// Server variables
 	private String ServerIP = "";
 	private ArrayList<String> allFilesList = new ArrayList<String>();
-	private ArrayList<Client> clientList = new ArrayList<>();
+	protected ArrayList<Client> clientList = new ArrayList<>();
 	private int serverPort = 45005;
 
 	// Sockets for upload and download
@@ -87,7 +88,8 @@ public class ClientConnection
 		allFilesList = getListOfFiles();
 
 
-		System.out.println("Voici les infos que l'on ma donner pour me connecter : \n " + " login : " + clientName +  " monIP : " + ClientIP +" ipServer : "+ ServerIP + " j'existe : "+ exist );
+		System.out.println("Voici les infos que l'on ma donner pour me connecter : \n " + " login : " + clientName +
+											" monIP : " + ClientIP +" ipServer : "+ ServerIP + " j'existe : "+ exist );
 		//va contr�ler si l'objet existe d�ja lors de la s�rialisation.
 		client = new Client(clientName, ClientIP, allFilesList, exist);
 		System.out.println("coucou");
@@ -100,7 +102,7 @@ public class ClientConnection
 	{
 		exist = true;
 
-		Thread waitThread = new Thread(new Runnable() {
+		Thread listenThread= new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -163,7 +165,39 @@ public class ClientConnection
 			}
 
 		});
+		listenThread.start();
 
+	}
+
+	protected void getClients()
+	{
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				while(true)
+				{
+					try
+					{
+						ArrayList<Client> cList = (ArrayList<Client>)ois.readObject();
+
+						if(cList.size() > 0 && cList.get(0) instanceof  Client)
+						{
+							clientList = cList;
+						}
+					}
+					catch(IOException ioe)
+					{
+						ioe.printStackTrace();
+					}
+					catch(ClassNotFoundException cnfe)
+					{
+						cnfe.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 
 	protected void download(String fileName, Client fileOwner, FileAsk fAsk)

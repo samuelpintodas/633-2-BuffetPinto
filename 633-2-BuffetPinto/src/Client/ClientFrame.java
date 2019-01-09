@@ -17,6 +17,7 @@ public class ClientFrame extends JFrame {
     private JComboBox clientChoose;
 
     private JPanel buttonsPanel;
+    private Button refreshButton;
     private Button downloadButton;
     private Button quitButton;
 
@@ -31,8 +32,8 @@ public class ClientFrame extends JFrame {
     public ClientFrame()
     {
 
-        cNameTxt = new JTextField("Client");
-        servIPTxt = new JTextField("127.0.0.1");
+        cNameTxt = new JTextField("Client name");
+        servIPTxt = new JTextField("Server IP");
         Object [] txts = {cNameTxt, servIPTxt};
         JOptionPane.showMessageDialog(null, txts);
 
@@ -41,14 +42,17 @@ public class ClientFrame extends JFrame {
             cc = new ClientConnection();
             cc.connectToServer(servIPTxt.getText(), cNameTxt.getText());
             cc.connectToClient();
+            cc.getClients();
         }
         catch(IOException ioe)
         {
             ioe.printStackTrace();
         }
 
+        refreshButton = new Button("Refresh");
         downloadButton = new Button("Download");
         quitButton = new Button("Quit");
+
         clientChoose = new JComboBox();
         buttonsPanel = new JPanel();
         listModel = new DefaultListModel<>();
@@ -62,8 +66,9 @@ public class ClientFrame extends JFrame {
 
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // maybe problem here
 
-        downloadButton.addActionListener(new DownloadButtonClick());
-        quitButton.addActionListener(new QuitButtonClick());
+        refreshButton.addActionListener(new RefreshClick());
+        downloadButton.addActionListener(new DownloadClick());
+        quitButton.addActionListener(new QuitClick());
 
         buttonsPanel.add(downloadButton);
         buttonsPanel.add(quitButton);
@@ -75,7 +80,25 @@ public class ClientFrame extends JFrame {
         setVisible(true);
     }
 
-    private class DownloadButtonClick implements ActionListener
+    private class RefreshClick implements  ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+
+            if(!(clientChoose.getItemCount()>1))
+            {
+                clientChoose.removeAllItems();
+            }
+            for(Client c : cc.getClientList())
+            {
+                clientChoose.addItem(c);
+            }
+
+        }
+    }
+
+    private class DownloadClick implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
@@ -89,7 +112,7 @@ public class ClientFrame extends JFrame {
         }
     }
 
-    private class QuitButtonClick implements ActionListener
+    private class QuitClick implements ActionListener
     {
         int disconnectPort = cc.getClientPort()+1;
         @Override
