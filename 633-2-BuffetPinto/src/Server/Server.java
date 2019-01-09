@@ -23,7 +23,7 @@ public class Server {
         //Initialize log file
         log.createLogger();
         try {
-            //create a Sercer socket
+            //create a Server socket
             mySkServer = new ServerSocket(45005, 10);
             //wait for a client connection
             while (true)
