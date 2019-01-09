@@ -11,6 +11,8 @@ import Client.Client;
 
 public class AccepteClient extends Thread
 {
+
+	// Variable initialization
 	private Serialize serialize;
 
 	private Socket clientSocketOnServer = null;
@@ -19,7 +21,7 @@ public class AccepteClient extends Thread
 	private Log log;
 	private ObjectOutputStream outStream = null;
 
-	//Info pour le client
+	//Client variable
 	private PrintWriter validate = null;
 	private ObjectOutputStream out = null;
 
@@ -29,32 +31,37 @@ public class AccepteClient extends Thread
 	//Constructor
 	public AccepteClient (Socket clientSocketOnServer, ArrayList<AccepteClient> connectedClientList, Serialize serialize,Log log)
 	{
-		//r�cuperation des objet pass� en param�tre
+		//take parameter to this class
 		  this.clientSocketOnServer = clientSocketOnServer;
 	      this.serialize = serialize;
 	      this.connectedClientList = connectedClientList;
 	      this.log = log;
 	}
 
+
+	//run the thread
 	@SuppressWarnings({"deprecation","unchecked"})
 	public void run()
 	{
 		try
 		{
+			//create an Arraylist serializable from all clients
 			ArrayList<Client> listOfClient=new ArrayList<>();
 			outStream = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
 
-			/// ajout debut
 			if(!(serialize.deSerializeObject() == null))
 			{
 				listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
 			}
+			// create a client to serialize only name
 			Client newClient = new Client(client.getName());
 			log.write(client.getName()+" connection validée", "info");
 			listOfClient.add(newClient);
+			//serialize the new client
 			serialize.serializeObject(listOfClient);
+			//send a file list to the client
 			updateFileClient();
 		}
 		catch (IOException | ClassNotFoundException e)
@@ -64,20 +71,17 @@ public class AccepteClient extends Thread
 		}
 	}
 
+	// method to send the filelist to the client
 	private void updateFileClient() throws IOException
 	{
+		// create an new Arraylist to send to the client
 		ArrayList<Client> allClients = new ArrayList<Client>();
+		// foreach
 		for (AccepteClient accepteClient : connectedClientList)
 		{
-			if(accepteClient.client != client)
-				allClients.add(accepteClient.client);
-			else
 				allClients.add(client);
-		}
-		for (AccepteClient accepteClient : connectedClientList)
-		{
-			accepteClient.outStream.writeObject(allClients);
-			accepteClient.outStream.flush();
+				accepteClient.outStream.writeObject(allClients);
+				accepteClient.outStream.flush();
 		}
 	}
 }

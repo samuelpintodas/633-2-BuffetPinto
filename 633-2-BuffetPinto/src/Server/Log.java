@@ -12,20 +12,30 @@ import java.util.logging.SimpleFormatter;
 
 public class Log
     {
+        //initialize variable
         private Logger myLogger;
         private String path;
         private int getMonth;
         private int getYear;
         private Calendar cal = Calendar.getInstance();
         private FileHandler fh;
+        File f;
 
+        // method to create a logfile
         public void createLogger()
         {
             myLogger = Logger.getLogger("Logger");
             getMonth = cal.get(cal.MONTH)+1;
             getYear = cal.get(cal.YEAR);
 
-            File f = new File("Logger\\logs-" + getMonth +"-"+getYear + ".txt");
+            // create filename
+            if(getMonth>10){
+                 f = new File("Logger\\logs-" + getMonth +"-"+getYear + ".txt");
+            }
+            else{
+                f = new File("Logger\\logs-" + "0"+ getMonth +"-"+getYear + ".txt");
+            }
+
             path = f.getName();
 
             try
@@ -58,6 +68,7 @@ public class Log
             fh.setFormatter(formater);
         }
 
+        // methode to write log in file with the type of message
         public void write(String text, String severity)
         {
             if (severity.equals("info"))
