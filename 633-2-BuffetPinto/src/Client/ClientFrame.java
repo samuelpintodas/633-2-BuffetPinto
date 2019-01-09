@@ -58,9 +58,9 @@ public class ClientFrame extends JFrame {
         listModel = new DefaultListModel<>();
         filesList = new JList(listModel);
 
-        //setBounds(100, 100, 475, 595);
+        setBounds(100, 100, 475, 595);
         contentPane = new JPanel();
-        //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
@@ -69,7 +69,9 @@ public class ClientFrame extends JFrame {
         refreshButton.addActionListener(new RefreshClick());
         downloadButton.addActionListener(new DownloadClick());
         quitButton.addActionListener(new QuitClick());
+        clientChoose.addActionListener(new switchClient());
 
+        buttonsPanel.add(refreshButton);
         buttonsPanel.add(downloadButton);
         buttonsPanel.add(quitButton);
 
@@ -86,7 +88,7 @@ public class ClientFrame extends JFrame {
         public void actionPerformed(ActionEvent e)
         {
 
-            if(!(clientChoose.getItemCount()>1))
+            if(!(clientChoose.getItemCount()<1))
             {
                 clientChoose.removeAllItems();
             }
