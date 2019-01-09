@@ -20,6 +20,9 @@ public class ClientFrame extends JFrame {
     private Button downloadButton;
     private Button quitButton;
 
+    private JTextField cNameTxt;
+    private JTextField servIPTxt;
+
     private JList filesList;
     private DefaultListModel<String> listModel;
 
@@ -27,9 +30,17 @@ public class ClientFrame extends JFrame {
 
     public ClientFrame()
     {
+
+        cNameTxt = new JTextField("Client");
+        servIPTxt = new JTextField("127.0.0.1");
+        Object [] txts = {cNameTxt, servIPTxt};
+        JOptionPane.showMessageDialog(null, txts);
+
         try
         {
             cc = new ClientConnection();
+            cc.connectToServer(servIPTxt.getText(), cNameTxt.getText());
+            cc.connectToClient();
         }
         catch(IOException ioe)
         {
@@ -60,7 +71,6 @@ public class ClientFrame extends JFrame {
         contentPane.add(clientChoose, BorderLayout.NORTH);
         contentPane.add(buttonsPanel, BorderLayout.SOUTH);
         contentPane.add(filesList, BorderLayout.CENTER);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

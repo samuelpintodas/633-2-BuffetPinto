@@ -20,7 +20,7 @@ public class ClientConnection
 {
 	// Client variables
 	private Client client = null;
-	private String Clientlogin = "";
+	//private String Clientlogin = "";
 	private String ClientIP = "";
 	private boolean exist;
 	private Socket clientSocket = null;
@@ -58,8 +58,8 @@ public class ClientConnection
 
 	public ClientConnection() throws IOException
 	{
-		connectToServer();
-		connectToClient();
+		//connectToServer();
+		//connectToClient();
 	}
 
 	private void prepareClientSocket(String cName, int cPort) {
@@ -73,29 +73,30 @@ public class ClientConnection
 		}
 	}
 
-	private void connectToServer() throws IOException
+	protected void connectToServer(String serverIP, String clientName) throws IOException
 	{
 		exist = true;
-		ServerIP = "localhost";
+		//serverIP = "localhost";
 		clientSocket = new Socket(ServerIP, serverPort);
 
 		oos = new ObjectOutputStream(clientSocket.getOutputStream());
 		buffin = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-		Clientlogin = "Admin";
+		//
 		ClientIP = clientSocket.getLocalAddress().getHostAddress(); //nous donne l'adresse ip du client.
 		allFilesList = getListOfFiles();
 
-		System.out.println("Voici les infos que l'on ma donner pour me connecter : \n " + " login : " + Clientlogin +  " monIP : " + ClientIP +" ipServer : "+ ServerIP + " j'existe : "+ exist );
+
+		System.out.println("Voici les infos que l'on ma donner pour me connecter : \n " + " login : " + clientName +  " monIP : " + ClientIP +" ipServer : "+ ServerIP + " j'existe : "+ exist );
 		//va contr�ler si l'objet existe d�ja lors de la s�rialisation.
-		client = new Client(Clientlogin, ClientIP, allFilesList, exist);
+		client = new Client(clientName, ClientIP, allFilesList, exist);
 		System.out.println("coucou");
 		oos.writeObject(client);
 	}
 
 
 	// listening code
-	private void connectToClient() throws IOException
+	protected void connectToClient() throws IOException
 	{
 		exist = true;
 
