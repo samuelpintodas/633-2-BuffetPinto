@@ -24,7 +24,7 @@ public class Server {
         log.createLogger();
         try {
             //create a Sercer socket
-            mySkServer = new ServerSocket(45005, 5);
+            mySkServer = new ServerSocket(45005, 10);
             System.out.println("connection open on port : " + 45005);
             //wait for a client connection
             while (true)

@@ -62,9 +62,10 @@ public class AccepteClient extends Thread
 			listOfClient.add(newClient);
 			//serialize the new client
 			serialize.serialize(listOfClient);
+			System.out.println(connectedClientList.size());
 			//send a file list to the client
 			updateFileClient();
-			while(clientSocketOnServer.isConnected()){
+			while(!clientSocketOnServer.isClosed()){
 				Object o = in.readObject();
 
 
@@ -81,13 +82,15 @@ public class AccepteClient extends Thread
 	private void updateFileClient() throws IOException
 	{
 		// create an new Arraylist to send to the client
-		ArrayList<Client> allClients = new ArrayList<Client>();
+		ArrayList<Client> allClients = new ArrayList<>();
 		// foreach
+		for (AccepteClient accepteClient : connectedClientList) {
+			allClients.add(accepteClient.client);
+		}
 		for (AccepteClient accepteClient : connectedClientList)
 		{
-				allClients.add(client);
-				accepteClient.outStream.writeObject(allClients);
-				accepteClient.outStream.flush();
+			accepteClient.outStream.writeObject(allClients);
+			accepteClient.outStream.flush();
 		}
 	}
 }

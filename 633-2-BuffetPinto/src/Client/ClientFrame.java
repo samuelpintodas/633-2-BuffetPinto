@@ -82,21 +82,23 @@ public class ClientFrame extends JFrame {
         setVisible(true);
     }
 
+    public void refreshList() {
+        if(!(clientChoose.getItemCount()<1))
+        {
+            clientChoose.removeAllItems();
+        }
+        for(Client c : cc.getClientList())
+        {
+            clientChoose.addItem(c);
+        }
+    }
+
     private class RefreshClick implements  ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
-            if(!(clientChoose.getItemCount()<1))
-            {
-                clientChoose.removeAllItems();
-            }
-            for(Client c : cc.getClientList())
-            {
-                clientChoose.addItem(c);
-            }
-
+            refreshList();
         }
     }
 
@@ -110,7 +112,7 @@ public class ClientFrame extends JFrame {
 
             FileAsk fAsk = new FileAsk(file, cc.getClient(), owner);
 
-            cc.download(file, owner, fAsk);
+            cc.download(owner, fAsk);
         }
     }
 
