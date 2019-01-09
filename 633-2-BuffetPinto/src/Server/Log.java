@@ -2,6 +2,7 @@ package Server;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -23,15 +24,15 @@ public class Log
         public void createLogger()
         {
             myLogger = Logger.getLogger("Logger");
-            getMonth = cal.get(cal.MONTH)+1;
-            getYear = cal.get(cal.YEAR);
+            getMonth = LocalDate.now().getMonthValue();
+            getYear = LocalDate.now().getYear();
 
             // create filename
             if(getMonth>10){
-                 f = new File("Logger\\logs-" + getMonth +"-"+getYear + ".txt");
+                 f = new File("Logger\\logs-" + getMonth + "-" + getYear + ".txt");
             }
             else{
-                f = new File("Logger\\logs-" + "0"+ getMonth +"-"+getYear + ".txt");
+                f = new File("Logger\\logs-" + "0" + getMonth +"-"+ getYear + ".txt");
             }
 
             path = f.getName();

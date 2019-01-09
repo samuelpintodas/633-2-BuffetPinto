@@ -37,7 +37,7 @@ public class ClientFrame extends JFrame {
         Object [] txts = {cNameTxt, servIPTxt};
         JOptionPane.showMessageDialog(null, txts);
 
-        try 
+        try
         {
             cc = new ClientConnection();
             cc.connectToServer(servIPTxt.getText(), cNameTxt.getText());

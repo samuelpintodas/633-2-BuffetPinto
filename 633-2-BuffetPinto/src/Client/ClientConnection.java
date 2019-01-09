@@ -87,13 +87,13 @@ public class ClientConnection
 		ClientIP = clientSocket.getLocalAddress().getHostAddress(); //nous donne l'adresse ip du client.
 		allFilesList = getListOfFiles();
 
-
 		System.out.println("Voici les infos que l'on ma donner pour me connecter : \n " + " login : " + clientName +
 											" monIP : " + ClientIP +" ipServer : "+ ServerIP + " j'existe : "+ exist );
 		//va contr�ler si l'objet existe d�ja lors de la s�rialisation.
 		client = new Client(clientName, ClientIP, allFilesList, exist);
 		System.out.println("coucou");
 		oos.writeObject(client);
+
 	}
 
 
@@ -181,8 +181,8 @@ public class ClientConnection
 					try
 					{
 						ArrayList<Client> cList = (ArrayList<Client>)ois.readObject();
-
-						if(cList.size() > 0 && cList.get(0) instanceof  Client)
+						System.out.println("SFDHFKLJSDHFLKJDHFLKJH" + cList.size());
+						if(cList.size() > 0 && cList.get(0) instanceof Client)
 						{
 							clientList = cList;
 						}
@@ -257,7 +257,6 @@ public class ClientConnection
 		}
 		return 0;
 	}
-
 
 
 	protected static class FileAsk implements Serializable
