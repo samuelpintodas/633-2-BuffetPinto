@@ -40,7 +40,7 @@ public class Server {
                 t.start();
             }
         } catch (IOException e) {
-            log.write(e.getMessage().toString(), "severe");
+            log.write("Server fail to run", "severe");
             e.printStackTrace();
         }
     }

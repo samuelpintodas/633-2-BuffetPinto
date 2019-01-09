@@ -22,7 +22,7 @@ public class AccepteClient extends Thread
 	//Info pour le client
 	private PrintWriter validate = null;
 	private ObjectOutputStream out = null;
-	private String validation = "-1";
+
 
 
 
@@ -51,26 +51,16 @@ public class AccepteClient extends Thread
 			{
 				listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
 			}
-
-
-			System.out.println("je suis un thread : " + client);
-			System.out.println(client.getIp() + " " +client.getName());
-            out = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
-            validate = new PrintWriter(out);
-			this.connectedClientList.add(this);
-
-
 			Client newClient = new Client(client.getName());
 			log.write(client.getName()+" connection validée", "info");
 			listOfClient.add(newClient);
 			serialize.serializeObject(listOfClient);
-
 			updateFileClient();
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
-			log.write(e.getMessage().toString(), "severe");
+			log.write("failed to connect with the client", "severe");
 		}
 	}
 
