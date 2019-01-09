@@ -61,7 +61,7 @@ public class Serialize
 		return cs;
 	}
 
-	// methode to create a file use wehn no file are created
+	// methode to create a file use when no file are created
 	public void createFile()
 	{
 		File f = new File("Client//client.zer");
