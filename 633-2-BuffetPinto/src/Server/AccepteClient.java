@@ -46,7 +46,7 @@ public class AccepteClient extends Thread
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
 
-			/// ajout debut
+
 			ArrayList<Client> listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
 
 			System.out.println("je suis un thread : " + client);
@@ -60,7 +60,7 @@ public class AccepteClient extends Thread
 		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
-			log.write(e.getMessage().toString(), "severe");
+			log.write("failed to connect with the client", "severe");
 		}
 	}
 
