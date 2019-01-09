@@ -10,15 +10,13 @@ public class Client implements Serializable
 	 * donc nous serialisons notre client. et nous le stoqueron dans un fichier
 	 */
 	private String ClientName;
-	private String ClientPassword;
 	private String ClientIp;
 	private ArrayList<String> ClientlstFiles;
 	private boolean exist;
 	
-	public Client(String ClientName, String ClientPassword, String ClientIp, ArrayList<String> ClientlstFiles, boolean exist)
+	public Client(String ClientName, String ClientIp, ArrayList<String> ClientlstFiles, boolean exist)
 	{
 		this.ClientName = ClientName;
-		this.ClientPassword = ClientPassword;
 		this.ClientIp = ClientIp;
 		this.ClientlstFiles = ClientlstFiles;
 		this.exist = exist;
@@ -27,7 +25,6 @@ public class Client implements Serializable
 	public Client(String name, String mdp) 
 	{
 		this.ClientName = ClientName;
-		this.ClientPassword = ClientPassword;
 	}
 
 	public boolean isExist() 
@@ -38,11 +35,6 @@ public class Client implements Serializable
 	public String getName() 
 	{
 		return ClientName;
-	}
-	
-	public String getMdp() 
-	{
-		return ClientPassword;
 	}
 
 	public String getIp() {
