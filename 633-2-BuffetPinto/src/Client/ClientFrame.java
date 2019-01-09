@@ -145,6 +145,7 @@ public class ClientFrame extends JFrame {
                 {
                     JOptionPane.showMessageDialog(ClientFrame.this,"No file found for this client");
                 }
+                listModel.removeAllElements();
                 for (String file: clientFileList)
                 {
                     listModel.addElement(file);

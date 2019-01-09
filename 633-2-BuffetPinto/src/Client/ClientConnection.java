@@ -163,12 +163,13 @@ public class ClientConnection
 
     private void setClientList(ArrayList<Client> cList) {
         clientList = cList;
-        clientFrame.refreshList();
     }
 
     protected void download(Client fileOwner, FileAsk fAsk)
     {
         new Thread(new Runnable() {
+            InputStream is;
+            ObjectOutputStream oos;
 
             @Override
             public void run() {
@@ -176,10 +177,11 @@ public class ClientConnection
                 {
                     downloadSocket = new Socket(fAsk.getReceiver().getIp(), clientPort);
                     System.out.println(fAsk.getReceiver().getIp());
-                    ois = new ObjectInputStream(downloadSocket.getInputStream());
+                    is = downloadSocket.getInputStream();
                     oos = new ObjectOutputStream(downloadSocket.getOutputStream());
                     oos.writeObject(fAsk);
-                    Files.copy(ois, Paths.get(directory + fAsk.getFileName()));
+                    System.out.println(Paths.get(directory + "\\" + fAsk.getFileName()).toString());
+                    Files.copy(is, Paths.get(directory + "\\" + fAsk.getFileName()));
                 }
                 catch(IOException ioe)
                 {
@@ -247,7 +249,7 @@ public class ClientConnection
     private class SendFileThread extends Thread {
         Socket tempSocket;
         Object tempClient = null;
-        private ObjectOutputStream oos = null;
+        private OutputStream os = null;
         private ObjectInputStream ois = null;
 
         public SendFileThread(Socket tempSocket) {
@@ -258,7 +260,7 @@ public class ClientConnection
         public void run() {
             try {
                 ois = new ObjectInputStream(tempSocket.getInputStream());
-                oos = new ObjectOutputStream(tempSocket.getOutputStream());
+                os = tempSocket.getOutputStream();
                 tempClient = ois.readObject();
                 FileAsk cFileAsk = (FileAsk) tempClient;
                 File receptionDir = directory;
@@ -287,7 +289,7 @@ public class ClientConnection
                 }
 
                 String absPath = askedFile.getAbsolutePath();
-                Files.copy(Paths.get(absPath), oos);
+                Files.copy(Paths.get(absPath), os);
                 tempSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
