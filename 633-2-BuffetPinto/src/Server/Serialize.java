@@ -13,6 +13,7 @@ import Client.Client;
 
 public class Serialize 
 {
+	// initialization of variable
 	private String path = "Client\\client.zer";
 	private Client admin = new Client("Admin");
 	private ArrayList<Client> list = new ArrayList<>();
@@ -23,7 +24,8 @@ public class Serialize
 		super();
 	}
 
-	public void serializeObject(ArrayList o)
+	// method to Serialize
+	public void serialize(ArrayList o)
 	{
 		try 
 		{
@@ -40,7 +42,8 @@ public class Serialize
 		}
 	}
 
-	public Object deSerializeObject() 
+	// method to deserialized
+	public Object deSerialize()
 	{ 		
 		ArrayList cs = null;
 
@@ -71,7 +74,7 @@ public class Serialize
 			{
 				f.createNewFile();
 				list.add(admin);
-				serializeObject(list);
+				serialize(list);
 			}
 
 			
