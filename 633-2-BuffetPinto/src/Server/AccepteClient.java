@@ -50,7 +50,7 @@ public class AccepteClient extends Thread
 			ArrayList<Client> listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
 
 			System.out.println("je suis un thread : " + client);
-			System.out.println(client.getIp() + " " +client.getName() + " "+client.getMdp());
+			System.out.println(client.getIp() + " " +client.getName());
             out = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
             validate = new PrintWriter(out);
 			this.connectedClientList.add(this);
