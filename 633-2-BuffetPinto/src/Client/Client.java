@@ -5,10 +5,6 @@ import java.util.ArrayList;
 
 public class Client implements Serializable 
 {
-	/*
-	 * Nous parton du principe que nous allon travailler avec des objet
-	 * donc nous serialisons notre client. et nous le stoqueron dans un fichier
-	 */
 	private String ClientName;
 	private String ClientIp;
 	private ArrayList<String> ClientlstFiles;
@@ -22,12 +18,13 @@ public class Client implements Serializable
 		this.exist = exist;
 	}
 	
-	public Client(String name, String mdp) 
+	public Client(String name)
 	{
 		this.ClientName = ClientName;
 	}
 
-	public boolean isExist() 
+
+    public boolean isExist()
 	{
 		return exist;
 	}
