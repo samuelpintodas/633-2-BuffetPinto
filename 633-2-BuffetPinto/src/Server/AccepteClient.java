@@ -25,6 +25,7 @@ public class AccepteClient extends Thread
 
 
 
+
 	//Constructor
 	public AccepteClient (Socket clientSocketOnServer, ArrayList<AccepteClient> connectedClientList, Serialize serialize,Log log)
 	{
@@ -45,16 +46,13 @@ public class AccepteClient extends Thread
 			ObjectInputStream in = new ObjectInputStream(clientSocketOnServer.getInputStream());
 			client = (Client) in.readObject();
 
-
-			ArrayList<Client> listOfClient = (ArrayList<Client>) (serialize.deSerializeObject());
-
+			/// ajout debut
 			System.out.println("je suis un thread : " + client);
 			System.out.println(client.getIp() + " " +client.getName());
             out = new ObjectOutputStream(clientSocketOnServer.getOutputStream());
             validate = new PrintWriter(out);
 			this.connectedClientList.add(this);
 			updateFileClient();
-
 		}
 		catch (IOException | ClassNotFoundException e)
 		{

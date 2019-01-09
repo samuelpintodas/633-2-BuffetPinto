@@ -53,7 +53,6 @@ public class Serialize
 		catch (Exception e) 
 		{
 			cs = new Object();
-			log.write("deserialisation fail","severe");
 		}
 
 		return cs;
