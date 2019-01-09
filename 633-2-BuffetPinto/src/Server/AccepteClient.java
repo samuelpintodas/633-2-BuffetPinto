@@ -63,6 +63,7 @@ public class AccepteClient extends Thread
 			log.write(e.getMessage().toString(), "severe");
 		}
 	}
+
 	private void updateFileClient() throws IOException
 	{
 		ArrayList<Client> allClients = new ArrayList<Client>();
